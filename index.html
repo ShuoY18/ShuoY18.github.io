@@ -24,7 +24,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <title>Academic Project Page</title>
+  <title>Denoising Reuse: Exploiting Inter-frame Motion Consistency in Efficient Video Latent Generation</title>
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
   rel="stylesheet">
@@ -56,11 +56,17 @@
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">
-                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">First Author</a><sup>*</sup>,</span>
+                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">Chenyu Wang</a><sup>*</sup>,</span>
                 <span class="author-block">
-                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Second Author</a><sup>*</sup>,</span>
+                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Shuo Yan</a><sup>*</sup>,</span>
                   <span class="author-block">
-                    <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Third Author</a>
+                    <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Yixuan Chen</a>
+                  </span>
+                  <span class="author-block">
+                    <a target="_blank">Yujiang Wang</a>
+                  </span>
+                  <span class="author-block">
+                    <a target="_blank">Mingzhi Dong</a>
                   </span>
                   </div>
 
@@ -148,7 +154,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ullamcorper tellus sed ante aliquam tempus. Etiam porttitor urna feugiat nibh elementum, et tempor dolor mattis. Donec accumsan enim augue, a vulputate nisi sodales sit amet. Proin bibendum ex eget mauris cursus euismod nec et nibh. Maecenas ac gravida ante, nec cursus dui. Vivamus purus nibh, placerat ac purus eget, sagittis vestibulum metus. Sed vestibulum bibendum lectus gravida commodo. Pellentesque auctor leo vitae sagittis suscipit.
+            Video generation using diffusion-based models is typically constrained by high computational costs due to the complex interactions inherent in video data. This paper addresses these efficiency challenges by optimizing the denoising process across frames. Our key discovery is that inter-frame motion features remain consistent throughout the majority of the diffusion process and can be characterized as coarse-grained. Leveraging this insight, we propose a lightweight motion learning module that efficiently captures and utilizes these inter-frame motions to transform and generate subsequent frames. This module enables the reuse of frames across multiple denoising steps, significantly reducing the need to regenerate each frame from scratch, thus decreasing the computational load and accelerating the video generation process. We apply frame-specific updates only in the final stages of denoising to preserve the integrity and detail of the video. A comprehensive evaluation across various tasks, including style transfer, video prediction, and interpolation, demonstrates that our method substantially reduces computational demands while simultaneously enhancing the speed and quality of video content generation.
           </p>
         </div>
       </div>
