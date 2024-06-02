@@ -43,11 +43,18 @@
   <script src="static/js/bulma-carousel.min.js"></script>
   <script src="static/js/bulma-slider.min.js"></script>
   <script src="static/js/index.js"></script>
+
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
 </head>
 <body>
 
 
-  <section class="hero">
+<section class="hero">
     <div class="hero-body">
       <div class="container is-max-desktop">
         <div class="columns is-centered">
@@ -134,6 +141,23 @@
   </div>
 </section>
 <!-- End paper abstract -->
+
+
+<section class="hero is-small is-light" >
+  <div class="container is-max-desktop" >
+    <div class="hero-body" style="display: flex; justify-content: space-around;">
+        <div style="width:800px; height: 300px; overflow: hidden;">
+          <embed type="text/html" src="./static/interactive/cossim_1.html" height="400" width="800">
+        </div>
+    </div>
+    <h2 class="subtitle has-text-centered">
+      Interactive visualization of Motion matrix  <span id="latex-m">\( M \)</span>. 
+      Hover over the patches to see the corresponding similarities.
+  </h2>
+  </div>
+</section>
+
+
 
 
 
