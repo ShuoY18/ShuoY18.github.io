@@ -53,6 +53,20 @@
 </head>
 <body>
 
+<!-- CSS to center images -->
+<style>
+  .centered-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .item {
+    text-align: center;
+  }
+
+</style>
+
 
 <section class="hero">
     <div class="hero-body">
@@ -125,6 +139,35 @@
   </div>
 </section>
 
+
+<!-- Video Generation -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Video Generation Results</h2>
+        <table>
+          <div class="large-4 columns">
+          </div>
+          <br>
+          <tr>
+              <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                      height="256"
+                      src="static/webp/horse.webp">
+              </td>
+              <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                height="256"
+                src="static/webp/horse.webp">
+        </td>
+              
+          </tr>
+          </table>
+    </div>
+  </div>
+</section>
+<!-- End video carousel -->
+
+
+
 <!-- Paper abstract -->
 <section class="section hero is-light">
   <div class="container is-max-desktop">
@@ -143,22 +186,78 @@
 <!-- End paper abstract -->
 
 
+<!-- Image algorithm -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="rows is-centered has-text-centered">
+    <h2 class="title is-3 has-text-centered">Method Overview</h2>
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+       <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/model.png" alt="MY ALT TEXT"/>
+        <h2 class="subtitle has-text-centered">
+          model description.
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <img class="centered-image" src="static/images/4.png" alt="MY ALT TEXT"/>
+        <h2 class="subtitle has-text-centered">
+          Second image description.
+        </h2>
+      </div>
+  </div>
+</div></div>
+</div>
+</section>
+<!-- End image carousel -->
+
+<!-- Interactive -->
 <section class="hero is-small is-light" >
-  <div class="container is-max-desktop" >
-    <div class="hero-body" style="display: flex; justify-content: space-around;">
+  <div class="hero-body" style="display: flex; justify-content: center;"></div>
+  <h2 class="title is-3 has-text-centered">Motion Matrix</h2>
+    <div class="container is-max-desktop" >
         <div style="width:800px; height: 300px; overflow: hidden;">
           <embed type="text/html" src="./static/interactive/cossim_1.html" height="400" width="800">
         </div>
     </div>
+    <br>
     <h2 class="subtitle has-text-centered">
       Interactive visualization of Motion matrix  <span id="latex-m">\( M \)</span>. 
       Hover over the patches to see the corresponding similarities.
   </h2>
+  <br>
+</div>
+</section>
+<!-- End Interactive -->
+
+
+<!-- Video carousel -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Long Video Generation</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/carousel1.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/carousel2.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-
-
-
+<!-- End video carousel -->
 
 
   <footer class="footer">
