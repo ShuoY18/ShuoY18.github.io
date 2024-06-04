@@ -87,9 +87,9 @@
             return matrices;
         }
 
-        async function fetchJsonData() {
+        async function fetchJsonData(json_path) {
             try {
-                const response = await fetch('face.json'); 
+                const response = await fetch(json_path); 
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
@@ -101,28 +101,30 @@
         }
         
 
-        async function displayJsonData() {
-            const data = await fetchJsonData();
+        async function displayJsonData(json_path) {
+            const data = await fetchJsonData(json_path);
             return data;
         }
 
         let similarityMatrix_0 = null;
         let similarityMatrix_1 = null;
 
-        displayJsonData().then(result => {
+        displayJsonData('face_0to1.json').then(result => {
             similarityMatrix = result;
-            similarityMatrix_0 = result["0to1"];
-            similarityMatrix_1 = result['1to0'];
-            console.log('Returned data:', result);
-            
+            similarityMatrix_0 = result["matrix"];
+            console.log('Returned data:', result);        
         });
+        displayJsonData('face_1to0.json').then(result => {
+            similarityMatrix = result;
+            similarityMatrix_1 = result["matrix"];
+            console.log('Returned data:', result);        
+        });
+
 
         
         // const similarityMatrix = generateDiagonalMatrices(32 * 32);
         
-
         function showHighlight(event, highlight, mask, image, blockSize, self=false, left=true) {
-
             if(similarityMatrix_0 == null || similarityMatrix_1 == null){
                 return;
             }
@@ -181,9 +183,9 @@
                         pixel.style.top = `${j * blockSize}px`;
                         const similarity = currentMatrix[j][i];
                         // 根据相似度分为五个类别
-                        if (similarity >= 0.08) {
+                        if (similarity >= 0.1) {
                             pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
-                        } else if (similarity >= 0.03) {
+                        } else if (similarity >= 0.02) {
                             pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // 中高亮黄色
                         } else if (similarity >= 0.01) {
                             pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // 中亮黄色
@@ -214,12 +216,12 @@
         }
 
         image1.addEventListener('mousemove', (event) => {
-            showHighlight(event, highlight1, mask1, image1, 8, self=true); // 8px 像素块大小
+            showHighlight(event, highlight1, mask1, image1, 8, self=true, left=true); // 8px 像素块大小
             const event2 = new MouseEvent('mousemove', {
                 clientX: event.clientX + image2.getBoundingClientRect().left - image1.getBoundingClientRect().left,
                 clientY: event.clientY + image2.getBoundingClientRect().top - image1.getBoundingClientRect().top
             });
-            showHighlight(event2, highlight2, mask2, image2, 8); // 8px 像素块大小
+            showHighlight(event2, highlight2, mask2, image2, 8, self=false, left=true); // 8px 像素块大小
         });
 
         image1.addEventListener('mouseout', () => {
@@ -233,7 +235,7 @@
                 clientX: event.clientX + image1.getBoundingClientRect().left - image2.getBoundingClientRect().left,
                 clientY: event.clientY + image1.getBoundingClientRect().top - image2.getBoundingClientRect().top
             });
-            showHighlight(event1, highlight1, mask1, image1, 8); // 8px 像素块大小
+            showHighlight(event1, highlight1, mask1, image1, 8,self=false, left=false); // 8px 像素块大小
         });
 
         image2.addEventListener('mouseout', () => {

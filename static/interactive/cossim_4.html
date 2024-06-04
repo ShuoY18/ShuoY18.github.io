@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Interaction</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container {
+            position: relative;
+            margin: 20px;
+        }
+
+        .image-container img {
+            width: 256px;
+            height: auto;
+        }
+
+        .highlight {
+            position: absolute;
+            pointer-events: none;
+            display: none;
+        }
+
+        .mask {
+            position: absolute;
+            pointer-events: none;
+            display: none;
+        }
+
+        /* 逐像素块的风格 */
+        .pixel {
+            width: 8px; /* 像素块大小 */
+            height: 8px; /* 像素块大小 */
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container" id="image1-container">
+            <img src="../images/cars_1.png" id="image1" alt="Image 1">
+            <div class="highlight" id="highlight1"></div>
+            <div class="mask" id="mask1"></div>
+        </div>
+        <div class="image-container" id="image2-container">
+            <img src="../images/cars_0.png" id="image2" alt="Image 2">
+            <div class="highlight" id="highlight2"></div>
+            <div class="mask" id="mask2"></div>
+        </div>
+    </div>
+
+    <script>
+        const image1 = document.getElementById('image1');
+        const image2 = document.getElementById('image2');
+        const highlight1 = document.getElementById('highlight1');
+        const highlight2 = document.getElementById('highlight2');
+        const mask1 = document.getElementById('mask1');
+        const mask2 = document.getElementById('mask2');
+
+        function randomColor() {
+            return `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.1)`;
+        }
+
+        function generateDiagonalMatrices(size) {
+            const matrices = [];
+            for (let k = 0; k < size; k++) {
+                const matrix = [];
+                for (let i = 0; i < 32; i++) {
+                    const row = [];
+                    for (let j = 0; j < 32; j++) {
+                        if (i === j) {
+                            row.push(Math.min(1,Math.random() * 10)); 
+                        } else {
+                            row.push(Math.max(0, Math.random() / 10)); 
+                        }
+                    }
+                    matrix.push(row);
+                }
+                matrices.push(matrix);
+            }
+            return matrices;
+        }
+
+        async function fetchJsonData(json_path) {
+            try {
+                const response = await fetch(json_path); 
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+        
+
+        async function displayJsonData(json_path) {
+            const data = await fetchJsonData(json_path);
+            return data;
+        }
+
+        let similarityMatrix_left = null;
+        let similarityMatrix_right = null;
+
+        displayJsonData('cars_1to0.json').then(result => {
+            similarityMatrix = result;
+            similarityMatrix_left = result["matrix"];
+            console.log('Returned data:', result);
+        });
+        displayJsonData('cars_0to1.json').then(result => {
+            similarityMatrix = result;
+            similarityMatrix_right = result["matrix"];
+            console.log('Returned data:', result);
+        });
+
+        
+        // const similarityMatrix = generateDiagonalMatrices(32 * 32);
+        
+
+        function showHighlight(event, highlight, mask, image, blockSize, self=false, left=true) {
+
+            if(similarityMatrix_left == null || similarityMatrix_right == null){
+                return;
+            }
+            if(left){
+                similarityMatrix = similarityMatrix_left;
+            }
+            else{
+                similarityMatrix = similarityMatrix_right;
+            }
+
+            const rect = image.getBoundingClientRect();
+            let x = event.clientX - rect.left;
+            let y = event.clientY - rect.top;
+
+            // 计算鼠标所在的像素块索引
+            const blockX = Math.floor(x / blockSize);
+            const blockY = Math.floor(y / blockSize);
+            const currentIndex = Math.floor(blockY * (rect.width / blockSize) + blockX);
+
+            // 清除之前的像素块
+            while (mask.firstChild) {
+                mask.removeChild(mask.firstChild);
+            }
+
+            index_r = Math.floor(currentIndex / 32);
+            index_c = currentIndex % 32;
+
+            console.log('Current Index:', currentIndex);
+            console.log('Self', self);
+            console.log(index_r);
+            console.log(index_c);
+
+            currentMatrix = similarityMatrix[Number(index_r)][Number(index_c)];
+
+            if(self){
+                for (let i = 0; i < 32; i++) {
+                    for (let j = 0; j < 32; j++) {
+                        const pixel = document.createElement('div');
+                        pixel.classList.add('pixel');
+                        pixel.style.left = `${i * blockSize}px`;
+                        pixel.style.top = `${j * blockSize}px`;
+
+                        if(index_r == j && index_c == i){
+                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
+                        }
+                        else{
+                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 透明灰色
+                        }
+                        mask.appendChild(pixel);
+                    }
+                }
+            }
+            else{
+                for (let i = 0; i < 32; i++) {
+                    for (let j = 0; j < 32; j++) {
+                        const pixel = document.createElement('div');
+                        pixel.classList.add('pixel');
+                        pixel.style.left = `${i * blockSize}px`;
+                        pixel.style.top = `${j * blockSize}px`;
+                        const similarity = currentMatrix[j][i];
+                        // 根据相似度分为五个类别
+                        if (similarity >= 0.05) {
+                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
+                        } else if (similarity >= 0.02) {
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // 中高亮黄色
+                        } else if (similarity >= 0.01) {
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // 中亮黄色
+                        } else if (similarity >= 0.003) {
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; // 低亮黄色
+                        } else {
+                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 透明灰色
+                        }
+                        mask.appendChild(pixel);
+                    }
+                }
+            }
+
+
+
+            highlight.style.display = 'block';
+
+            mask.style.width = `${rect.width}px`;
+            mask.style.height = `${rect.height}px`;
+            mask.style.top = '0';
+            mask.style.left = '0';
+            mask.style.display = 'block';
+        }
+
+        function hideHighlight(highlight, mask) {
+            highlight.style.display = 'none';
+            mask.style.display = 'none';
+        }
+
+        image1.addEventListener('mousemove', (event) => {
+            showHighlight(event, highlight1, mask1, image1, 8, self=true, left=true); // 8px 像素块大小
+            const event2 = new MouseEvent('mousemove', {
+                clientX: event.clientX + image2.getBoundingClientRect().left - image1.getBoundingClientRect().left,
+                clientY: event.clientY + image2.getBoundingClientRect().top - image1.getBoundingClientRect().top
+            });
+            showHighlight(event2, highlight2, mask2, image2, 8,self=false, left=true); // 8px 像素块大小
+        });
+
+        image1.addEventListener('mouseout', () => {
+            hideHighlight(highlight1, mask1);
+            hideHighlight(highlight2, mask2);
+        });
+
+        image2.addEventListener('mousemove', (event) => {
+            showHighlight(event, highlight2, mask2, image2, 8, self=true, left=false);
+            const event1 = new MouseEvent('mousemove', {
+                clientX: event.clientX + image1.getBoundingClientRect().left - image2.getBoundingClientRect().left,
+                clientY: event.clientY + image1.getBoundingClientRect().top - image2.getBoundingClientRect().top
+            });
+            showHighlight(event1, highlight1, mask1, image1, 8,self=false, left=false);
+        });
+
+        image2.addEventListener('mouseout', () => {
+            hideHighlight(highlight1, mask1);
+            hideHighlight(highlight2, mask2);
+        });
+    
+    
+    
+    </script>
+</body>
+</html>

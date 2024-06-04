@@ -44,12 +44,12 @@
 <body>
     <div class="container">
         <div class="image-container" id="image1-container">
-            <img src="../images/girl_football_0.png" id="image1" alt="Image 1">
+            <img src="../images/girl_football_1.png" id="image1" alt="Image 1">
             <div class="highlight" id="highlight1"></div>
             <div class="mask" id="mask1"></div>
         </div>
         <div class="image-container" id="image2-container">
-            <img src="../images/girl_football_1.png" id="image2" alt="Image 2">
+            <img src="../images/girl_football_0.png" id="image2" alt="Image 2">
             <div class="highlight" id="highlight2"></div>
             <div class="mask" id="mask2"></div>
         </div>
@@ -87,9 +87,9 @@
             return matrices;
         }
 
-        async function fetchJsonData() {
+        async function fetchJsonData(json_path) {
             try {
-                const response = await fetch('girl_football.json'); 
+                const response = await fetch(json_path); 
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
@@ -101,20 +101,23 @@
         }
         
 
-        async function displayJsonData() {
-            const data = await fetchJsonData();
+        async function displayJsonData(json_path) {
+            const data = await fetchJsonData(json_path);
             return data;
         }
 
         let similarityMatrix_0 = null;
         let similarityMatrix_1 = null;
 
-        displayJsonData().then(result => {
+        displayJsonData('girl_football_0to1.json').then(result => {
             similarityMatrix = result;
-            similarityMatrix_0 = result["0to1"];
-            similarityMatrix_1 = result['1to0'];
+            similarityMatrix_1 = result["matrix"];
             console.log('Returned data:', result);
-            
+        });
+        displayJsonData('girl_football_1to0.json').then(result => {
+            similarityMatrix = result;
+            similarityMatrix_0 = result["matrix"];
+            console.log('Returned data:', result);
         });
 
         
@@ -141,7 +144,6 @@
             const blockX = Math.floor(x / blockSize);
             const blockY = Math.floor(y / blockSize);
             const currentIndex = Math.floor(blockY * (rect.width / blockSize) + blockX);
-            // console.log('Current Index:', currentIndex);
 
             // 清除之前的像素块
             while (mask.firstChild) {
@@ -150,6 +152,11 @@
 
             index_r = Math.floor(currentIndex / 32);
             index_c = currentIndex % 32;
+
+            console.log('Current Index:', currentIndex);
+            console.log('Self', self);
+            console.log(index_r);
+            console.log(index_c);
 
             currentMatrix = similarityMatrix[Number(index_r)][Number(index_c)];
 
@@ -172,7 +179,6 @@
                 }
             }
             else{
-                // 创建新的像素块，并根据相似度值设置高亮状态
                 for (let i = 0; i < 32; i++) {
                     for (let j = 0; j < 32; j++) {
                         const pixel = document.createElement('div');
@@ -194,7 +200,7 @@
                         }
                         mask.appendChild(pixel);
                     }
-            }
+                }
             }
 
 
@@ -214,12 +220,12 @@
         }
 
         image1.addEventListener('mousemove', (event) => {
-            showHighlight(event, highlight1, mask1, image1, 8, self=true); // 8px 像素块大小
+            showHighlight(event, highlight1, mask1, image1, 8, self=true, left=true); // 8px 像素块大小
             const event2 = new MouseEvent('mousemove', {
                 clientX: event.clientX + image2.getBoundingClientRect().left - image1.getBoundingClientRect().left,
                 clientY: event.clientY + image2.getBoundingClientRect().top - image1.getBoundingClientRect().top
             });
-            showHighlight(event2, highlight2, mask2, image2, 8); // 8px 像素块大小
+            showHighlight(event2, highlight2, mask2, image2, 8, self=false, left=true); // 8px 像素块大小
         });
 
         image1.addEventListener('mouseout', () => {
@@ -228,12 +234,12 @@
         });
 
         image2.addEventListener('mousemove', (event) => {
-            showHighlight(event, highlight2, mask2, image2, 8, self=true, left=false); // 8px 像素块大小
+            showHighlight(event, highlight2, mask2, image2, 8, self=true, left=false);
             const event1 = new MouseEvent('mousemove', {
                 clientX: event.clientX + image1.getBoundingClientRect().left - image2.getBoundingClientRect().left,
                 clientY: event.clientY + image1.getBoundingClientRect().top - image2.getBoundingClientRect().top
             });
-            showHighlight(event1, highlight1, mask1, image1, 8); // 8px 像素块大小
+            showHighlight(event1, highlight1, mask1, image1, 8, self=false, left=false);
         });
 
         image2.addEventListener('mouseout', () => {
