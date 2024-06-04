@@ -44,12 +44,12 @@
 <body>
     <div class="container">
         <div class="image-container" id="image1-container">
-            <img src="../images/4.png" id="image1" alt="Image 1">
+            <img src="../images/face_0.png" id="image1" alt="Image 1">
             <div class="highlight" id="highlight1"></div>
             <div class="mask" id="mask1"></div>
         </div>
         <div class="image-container" id="image2-container">
-            <img src="../images/11.png" id="image2" alt="Image 2">
+            <img src="../images/face_1.png" id="image2" alt="Image 2">
             <div class="highlight" id="highlight2"></div>
             <div class="mask" id="mask2"></div>
         </div>
@@ -87,22 +87,29 @@
             return matrices;
         }
 
-        // function generateSimilarityMatrix(size) {
-        //     const matrix = [];
-        //     for (let i = 0; i < size; i++) {
-        //         const row = [];
-        //         for (let j = 0; j < size; j++) {
-        //             row.push(Math.random()); // 随机相似度值
-        //         }
-        //         matrix.push(row);
-        //     }
-        //     return matrix;
-        // }
+        async function fetchJsonData() {
+            try {
+                const response = await fetch('data.json'); 
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+        async function displayJsonData() {
+            const data = await fetchJsonData();
+            console.log(data)
+        }
+
+        displayJsonData()
+
 
         const similarityMatrix = generateDiagonalMatrices(32 * 32);
-        // console.log(similarityMatrix[0]);
-        // console.log(similarityMatrix[0][0][0]);
-        // console.log(similarityMatrix);
+        
+
 
         function showHighlight(event, highlight, mask, image, blockSize) {
             const rect = image.getBoundingClientRect();
