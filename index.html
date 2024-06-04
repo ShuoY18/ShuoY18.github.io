@@ -245,47 +245,127 @@
 <!-- End paper abstract -->
 
 
-<!-- Image algorithm -->
 <section class="hero is-small">
   <div class="hero-body">
     <h2 class="title is-3 has-text-centered">Method Overview</h2>
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-       <div class="item">
-        <img src="static/images/model.png" height="200" width="800"/>
-        
+    <div class="container is-max-desktop">
+        <img src="static/images/model.png" height="200" width="1000"/>
+        <br> 
         <h2 class="subtitle has-text-justified">
           Dr. Mo consists of two main components: the Motion Transformation Network (MTN) and Denoising Step Selector (DSS). MTN learns motion matrices from semantic latents extracted from
 U-Net. The DSS is a meta-network that determines the appropriate transition step (denoted as t∗) for
 switching from motion-based propagations to denoising. After the transition step, those latent noise
 is processed by the rest of the diffusion model for video generation.
 </h2>
-      </div>
+<br>
       <div class="columns is-centered has-text-centered">
         <div class="column is-three-fifths">
             <img src="static/images/dss.png" height="200" width="400">
         </div>
         <div class="column is-two-fifths has-text-justified">
             <p>
-              DSS
+              To learn t∗, DSS takes the statistics derived from motion matrices {Mi,j
+                δzt }T
+                t=1 as input, including
+                corresponding timestep indices and the NMI scores. It then implements a recurrent neural network
+                and outputs ˆt, the estimated most suitable switch step. DSS is updated according to the cross-entropy
+                loss between the predicted switching step ˆt and the ground truth t∗
             </p>
         </div>
     </div>
-      <!-- <div class="item">
-        <img class="centered-image" height="200" width="200" src="static/images/dss.png"/>
-        <h2 class="subtitle has-text-centered">
-          DSS description
-        </h2>
-      </div> -->
-  </div>
 </div>
 </div>
 </section>
-<!-- End image carousel -->
-
 
 <!-- Style transfor -->
 <section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Style Transfer Results</h2>
+      <div class="item">
+          <table class="center-table-transfor">
+            <tr>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256" height="256" src="static/webp/styletrans1-1.webp">
+                </td>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                  height="256"
+                  src="static/images/styletransfor1.png">
+                </td>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                  height="256"
+                  src="static/webp/styletrans1-2.webp">
+                </td>
+            </tr>
+            </table>
+            <h2 class="subtitle has-text-centered space-above">
+              Vanilla video (Left), Style transforred first frame (Middle), New style video (Right)
+            </h2>
+      </div>
+        <div class="item">
+          <table class="center-table-transfor">
+            <tr>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256" height="256" src="static/webp/styletrans2-1.webp">
+                </td>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                  height="256"
+                  src="static/images/styletransfor2.png">
+                </td>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                  height="256"
+                  src="static/webp/styletrans2-2.webp">
+                </td>
+            </tr>
+            </table>
+            <h2 class="subtitle has-text-centered space-above">
+              Vanilla video (Left), Style transforred first frame (Middle), New style video (Right)
+            </h2>
+        </div>
+        <div class="item">
+          <table class="center-table-transfor">
+            <tr>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256" height="256" src="static/webp/styletrans3-1.webp">
+                </td>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                  height="256"
+                  src="static/images/styletransfor3.png">
+                </td>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                  height="256"
+                  src="static/webp/styletrans3-2.webp">
+                </td>
+            </tr>
+            </table>
+            <h2 class="subtitle has-text-centered space-above">
+              Vanilla video (Left), Style transforred first frame (Middle), New style video (Right)
+            </h2>
+        </div>
+        <div class="item">
+          <table class="center-table-transfor">
+            <tr>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256" height="256" src="static/webp/styletrans4-1.webp">
+                </td>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                  height="256"
+                  src="static/images/styletransfor4.png">
+                </td>
+                <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
+                  height="256"
+                  src="static/webp/styletrans4-2.webp">
+                </td>
+            </tr>
+            </table>
+            <h2 class="subtitle has-text-centered space-above">
+              Vanilla video (Left), Style transforred first frame (Middle), New style video (Right)
+            </h2>
+        </div>
+      
+    </div>
+  </div>
+</section>
+<!-- End Style transfor -->
+
+<!-- Style transfor -->
+<!-- <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Style Transfer Results</h2>
@@ -369,7 +449,7 @@ is processed by the rest of the diffusion model for video generation.
       </div>
     </div>
   </div>
-</section>
+</section> -->
 <!-- End Style transfor -->
 
 
@@ -387,11 +467,6 @@ is processed by the rest of the diffusion model for video generation.
         <embed type="text/html" src="./static/interactive/cossim_3.html" height="400" width="800">
       </div>
   </div>
-  <div class="container is-max-desktop" >
-    <div style="width:800px; height: 300px; overflow: hidden;">
-      <embed type="text/html" src="./static/interactive/cossim_4.html" height="400" width="800">
-    </div>
-</div>
 <div class="container is-max-desktop" >
   <div style="width:800px; height: 300px; overflow: hidden;">
     <embed type="text/html" src="./static/interactive/cossim_5.html" height="400" width="800">
@@ -409,21 +484,21 @@ is processed by the rest of the diffusion model for video generation.
 
 
 <!-- Video carousel -->
-<section class="hero is-small">
+<!-- <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Long Video Generation</h2>
       <div id="results-carousel" class="carousel results-carousel">
         <div class="item item-video1">
           <video poster="" id="video1" autoplay controls muted loop height="100%">
-            <!-- Your video file here -->
+            
             <source src="static/videos/walkfront.mp4"
             type="video/mp4">
           </video>
         </div>
         <div class="item item-video1">
           <video poster="" id="video1" autoplay controls muted loop height="100%">
-            <!-- Your video file here -->
+            
             <source src="static/videos/walkfront.mp4"
             type="video/mp4">
           </video>
@@ -431,7 +506,7 @@ is processed by the rest of the diffusion model for video generation.
       </div>
     </div>
   </div>
-</section>
+</section> -->
 <!-- End video carousel -->
 
 
