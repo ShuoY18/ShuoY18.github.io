@@ -157,13 +157,13 @@
                     const similarity = currentMatrix[j][i];
 
                     // 根据相似度分为五个类别
-                    if (similarity >= 0.2) {
+                    if (similarity >= 0.05) {
                         pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
-                    } else if (similarity >= 0.12) {
+                    } else if (similarity >= 0.02) {
                         pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // 中高亮黄色
-                    } else if (similarity >= 0.1) {
+                    } else if (similarity >= 0.01) {
                         pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // 中亮黄色
-                    } else if (similarity >= 0.06) {
+                    } else if (similarity >= 0.003) {
                         pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; // 低亮黄色
                     } else {
                         pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 透明灰色
