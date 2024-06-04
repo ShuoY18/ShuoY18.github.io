@@ -99,19 +99,31 @@
                 console.error('There has been a problem with your fetch operation:', error);
             }
         }
-        async function displayJsonData() {
-            const data = await fetchJsonData();
-            console.log(data)
-        }
-
-        displayJsonData()
-
-
-        const similarityMatrix = generateDiagonalMatrices(32 * 32);
         
 
+        async function displayJsonData() {
+            const data = await fetchJsonData();
+            return data["data"];
+        }
+
+        let similarityMatrix = null;
+
+        displayJsonData().then(result => {
+            similarityMatrix = result;
+            console.log('Returned data:', result);
+            
+        });
+
+        
+        // const similarityMatrix = generateDiagonalMatrices(32 * 32);
+        
 
         function showHighlight(event, highlight, mask, image, blockSize) {
+
+            if(similarityMatrix == null){
+                return;
+            }
+
             const rect = image.getBoundingClientRect();
             let x = event.clientX - rect.left;
             let y = event.clientY - rect.top;
@@ -126,7 +138,14 @@
             while (mask.firstChild) {
                 mask.removeChild(mask.firstChild);
             }
-            const currentMatrix = similarityMatrix[currentIndex];
+
+            index_r = Math.floor(currentIndex / 32);
+            index_c = currentIndex % 32;
+            console.log(currentIndex);
+            console.log(index_r);
+            console.log(index_c);
+            currentMatrix = similarityMatrix[Number(index_r)][Number(index_c)];
+
             // 创建新的像素块，并根据相似度值设置高亮状态
             for (let i = 0; i < 32; i++) {
                 for (let j = 0; j < 32; j++) {
@@ -138,13 +157,13 @@
                     const similarity = currentMatrix[j][i];
 
                     // 根据相似度分为五个类别
-                    if (similarity >= 0.8) {
+                    if (similarity >= 0.2) {
                         pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
-                    } else if (similarity >= 0.6) {
+                    } else if (similarity >= 0.12) {
                         pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // 中高亮黄色
-                    } else if (similarity >= 0.4) {
+                    } else if (similarity >= 0.1) {
                         pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // 中亮黄色
-                    } else if (similarity >= 0.2) {
+                    } else if (similarity >= 0.06) {
                         pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; // 低亮黄色
                     } else {
                         pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 透明灰色
@@ -195,6 +214,9 @@
             hideHighlight(highlight1, mask1);
             hideHighlight(highlight2, mask2);
         });
+    
+    
+    
     </script>
 </body>
 </html>
