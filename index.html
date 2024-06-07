@@ -76,13 +76,13 @@
   padding: 10px;
   }
 
-  .center-table-transfor {
+  .center-table-transfer {
   margin-left: auto;
   margin-right: auto;
   
   }
 
-  .center-table-transfor td {
+  .center-table-transfer td {
   text-align: center;
   padding: 50px;
   }
@@ -293,7 +293,7 @@
         <br> 
         <h2 class="subtitle has-text-justified">
           Dr. Mo consists of two main components: the Motion Transformation Network (MTN) and Denoising Step Selector (DSS). MTN learns motion matrices from semantic latents extracted from
-U-Net. The DSS is a meta-network that determines the appropriate transition step (denoted as <span id="latex-m">\( t* \)</span>) for
+U-Net. The DSS is a meta-network that determines the appropriate transition step (denoted as <span id="latex-m">\( t^* \)</span>) for
 switching from motion-based propagations to denoising. After the transition step, those latent noise
 is processed by the rest of the diffusion model for video generation.
 </h2>
@@ -307,7 +307,7 @@ is processed by the rest of the diffusion model for video generation.
               To learn <span id="latex-m">\( t^* \)</span>, DSS takes the statistics derived from motion matrices <span id="latex-m">\( \{M_{δz_t}^{i,j}\}_{t=1}^T  \) </span> as input, including
                 corresponding timestep indices and the NMI scores. It then implements a recurrent neural network
                 and outputs <span id="=latex-m">\( \hat t \)</span>, the estimated most suitable switch step. DSS is updated according to the cross-entropy
-                loss between the predicted switching step <span id="=latex-m">\( \hat t \)</span> and the ground truth <span id="latex-m">\( t*  \)</span>.
+                loss between the predicted switching step <span id="=latex-m">\( \hat t \)</span> and the ground truth <span id="latex-m">\( t^*  \)</span>.
             </h2>
         </div>
     </div>
@@ -315,13 +315,13 @@ is processed by the rest of the diffusion model for video generation.
 </div>
 </section>
 
-<!-- Style transfor -->
+<!-- Style transfer -->
 <section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Style Transfer Results</h2>
       <div class="item">
-          <table class="center-table-transfor">
+          <table class="center-table-transfer">
             <tr>
                 <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256" height="256" src="static/webp/styletrans1-1.webp">
                 </td>
@@ -336,11 +336,11 @@ is processed by the rest of the diffusion model for video generation.
             </tr>
             </table>
             <h2 class="subtitle has-text-centered space-above">
-              Vanilla video (Left), Style transforred first frame (Middle), New style video (Right)
+              Vanilla video (Left), Style transferred first frame (Middle), New style video (Right)
             </h2>
       </div>
         <div class="item">
-          <table class="center-table-transfor">
+          <table class="center-table-transfer">
             <tr>
                 <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256" height="256" src="static/webp/styletrans2-1.webp">
                 </td>
@@ -355,11 +355,11 @@ is processed by the rest of the diffusion model for video generation.
             </tr>
             </table>
             <h2 class="subtitle has-text-centered space-above">
-              Vanilla video (Left), Style transforred first frame (Middle), New style video (Right)
+              Vanilla video (Left), Style transferred first frame (Middle), New style video (Right)
             </h2>
         </div>
         <div class="item">
-          <table class="center-table-transfor">
+          <table class="center-table-transfer">
             <tr>
                 <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256" height="256" src="static/webp/styletrans3-1.webp">
                 </td>
@@ -374,11 +374,11 @@ is processed by the rest of the diffusion model for video generation.
             </tr>
             </table>
             <h2 class="subtitle has-text-centered space-above">
-              Vanilla video (Left), Style transforred first frame (Middle), New style video (Right)
+              Vanilla video (Left), Style transferred first frame (Middle), New style video (Right)
             </h2>
         </div>
         <div class="item">
-          <table class="center-table-transfor">
+          <table class="center-table-transfer">
             <tr>
                 <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256" height="256" src="static/webp/styletrans4-1.webp">
                 </td>
@@ -393,16 +393,16 @@ is processed by the rest of the diffusion model for video generation.
             </tr>
             </table>
             <h2 class="subtitle has-text-centered space-above">
-              Vanilla video (Left), Style transforred first frame (Middle), New style video (Right)
+              Vanilla video (Left), Style transferred first frame (Middle), New style video (Right)
             </h2>
         </div>
       
     </div>
   </div>
 </section>
-<!-- End Style transfor -->
+<!-- End Style transfer -->
 
-<!-- Style transfor -->
+<!-- Style transfer -->
 <!-- <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
