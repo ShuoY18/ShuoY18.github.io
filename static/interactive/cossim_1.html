@@ -145,21 +145,20 @@
                         pixel.style.left = `${i * blockSize}px`;
                         pixel.style.top = `${j * blockSize}px`;
                         const similarity = currentMatrix[j][i];
-                        // 根据相似度分为五个类别
                         if (similarity >= 0.1) {
-                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
+                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)';
                         } else if (similarity >= 0.02) {
-                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // 中高亮黄色
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; 
                         } else if (similarity >= 0.01) {
-                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // 中亮黄色
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
                         } else if (similarity >= 0.005) {
-                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; // 低亮黄色
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; 
                         } else {
-                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 透明灰色
+                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
                         }
                         mask.appendChild(pixel);
                     }
-            }
+                }
             }
 
 
@@ -179,12 +178,12 @@
         }
 
         image1.addEventListener('mousemove', (event) => {
-            showHighlight(event, highlight1, mask1, image1, 8, self=true, left=true); // 8px 像素块大小
+            showHighlight(event, highlight1, mask1, image1, 8, self=true, left=true);
             const event2 = new MouseEvent('mousemove', {
                 clientX: event.clientX + image2.getBoundingClientRect().left - image1.getBoundingClientRect().left,
                 clientY: event.clientY + image2.getBoundingClientRect().top - image1.getBoundingClientRect().top
             });
-            showHighlight(event2, highlight2, mask2, image2, 8, self=false, left=true); // 8px 像素块大小
+            showHighlight(event2, highlight2, mask2, image2, 8, self=false, left=true);
         });
 
         image1.addEventListener('mouseout', () => {
@@ -193,12 +192,12 @@
         });
 
         image2.addEventListener('mousemove', (event) => {
-            showHighlight(event, highlight2, mask2, image2, 8, self=true, left=false); // 8px 像素块大小
+            showHighlight(event, highlight2, mask2, image2, 8, self=true, left=false);
             const event1 = new MouseEvent('mousemove', {
                 clientX: event.clientX + image1.getBoundingClientRect().left - image2.getBoundingClientRect().left,
                 clientY: event.clientY + image1.getBoundingClientRect().top - image2.getBoundingClientRect().top
             });
-            showHighlight(event1, highlight1, mask1, image1, 8,self=false, left=false); // 8px 像素块大小
+            showHighlight(event1, highlight1, mask1, image1, 8,self=false, left=false);
         });
 
         image2.addEventListener('mouseout', () => {

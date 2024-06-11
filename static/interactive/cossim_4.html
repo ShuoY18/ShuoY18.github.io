@@ -33,10 +33,9 @@
             display: none;
         }
 
-        /* 逐像素块的风格 */
         .pixel {
-            width: 8px; /* 像素块大小 */
-            height: 8px; /* 像素块大小 */
+            width: 8px; 
+            height: 8px; 
             position: absolute;
         }
     </style>
@@ -62,30 +61,6 @@
         const highlight2 = document.getElementById('highlight2');
         const mask1 = document.getElementById('mask1');
         const mask2 = document.getElementById('mask2');
-
-        function randomColor() {
-            return `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.1)`;
-        }
-
-        function generateDiagonalMatrices(size) {
-            const matrices = [];
-            for (let k = 0; k < size; k++) {
-                const matrix = [];
-                for (let i = 0; i < 32; i++) {
-                    const row = [];
-                    for (let j = 0; j < 32; j++) {
-                        if (i === j) {
-                            row.push(Math.min(1,Math.random() * 10)); 
-                        } else {
-                            row.push(Math.max(0, Math.random() / 10)); 
-                        }
-                    }
-                    matrix.push(row);
-                }
-                matrices.push(matrix);
-            }
-            return matrices;
-        }
 
         async function fetchJsonData(json_path) {
             try {
@@ -120,10 +95,6 @@
             console.log('Returned data:', result);
         });
 
-        
-        // const similarityMatrix = generateDiagonalMatrices(32 * 32);
-        
-
         function showHighlight(event, highlight, mask, image, blockSize, self=false, left=true) {
 
             if(similarityMatrix_left == null || similarityMatrix_right == null){
@@ -140,24 +111,16 @@
             let x = event.clientX - rect.left;
             let y = event.clientY - rect.top;
 
-            // 计算鼠标所在的像素块索引
             const blockX = Math.floor(x / blockSize);
             const blockY = Math.floor(y / blockSize);
             const currentIndex = Math.floor(blockY * (rect.width / blockSize) + blockX);
 
-            // 清除之前的像素块
             while (mask.firstChild) {
                 mask.removeChild(mask.firstChild);
             }
 
             index_r = Math.floor(currentIndex / 32);
             index_c = currentIndex % 32;
-
-            console.log('Current Index:', currentIndex);
-            console.log('Self', self);
-            console.log(index_r);
-            console.log(index_c);
-
             currentMatrix = similarityMatrix[Number(index_r)][Number(index_c)];
 
             if(self){
@@ -169,10 +132,10 @@
                         pixel.style.top = `${j * blockSize}px`;
 
                         if(index_r == j && index_c == i){
-                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
+                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)';
                         }
                         else{
-                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 透明灰色
+                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
                         }
                         mask.appendChild(pixel);
                     }
@@ -186,17 +149,16 @@
                         pixel.style.left = `${i * blockSize}px`;
                         pixel.style.top = `${j * blockSize}px`;
                         const similarity = currentMatrix[j][i];
-                        // 根据相似度分为五个类别
-                        if (similarity >= 0.05) {
-                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
+                        if (similarity >= 0.1) {
+                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)';
                         } else if (similarity >= 0.02) {
-                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // 中高亮黄色
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; 
                         } else if (similarity >= 0.01) {
-                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // 中亮黄色
-                        } else if (similarity >= 0.003) {
-                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; // 低亮黄色
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+                        } else if (similarity >= 0.005) {
+                            pixel.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
                         } else {
-                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 透明灰色
+                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
                         }
                         mask.appendChild(pixel);
                     }
@@ -220,12 +182,12 @@
         }
 
         image1.addEventListener('mousemove', (event) => {
-            showHighlight(event, highlight1, mask1, image1, 8, self=true, left=true); // 8px 像素块大小
+            showHighlight(event, highlight1, mask1, image1, 8, self=true, left=true);
             const event2 = new MouseEvent('mousemove', {
                 clientX: event.clientX + image2.getBoundingClientRect().left - image1.getBoundingClientRect().left,
                 clientY: event.clientY + image2.getBoundingClientRect().top - image1.getBoundingClientRect().top
             });
-            showHighlight(event2, highlight2, mask2, image2, 8,self=false, left=true); // 8px 像素块大小
+            showHighlight(event2, highlight2, mask2, image2, 8,self=false, left=true);
         });
 
         image1.addEventListener('mouseout', () => {
