@@ -33,10 +33,9 @@
             display: none;
         }
 
-        /* 逐像素块的风格 */
         .pixel {
-            width: 8px; /* 像素块大小 */
-            height: 8px; /* 像素块大小 */
+            width: 8px; 
+            height: 8px; 
             position: absolute;
         }
     </style>
@@ -63,30 +62,6 @@
         const mask1 = document.getElementById('mask1');
         const mask2 = document.getElementById('mask2');
 
-        function randomColor() {
-            return `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.1)`;
-        }
-
-        function generateDiagonalMatrices(size) {
-            const matrices = [];
-            for (let k = 0; k < size; k++) {
-                const matrix = [];
-                for (let i = 0; i < 32; i++) {
-                    const row = [];
-                    for (let j = 0; j < 32; j++) {
-                        if (i === j) {
-                            row.push(Math.min(1,Math.random() * 10)); 
-                        } else {
-                            row.push(Math.max(0, Math.random() / 10)); 
-                        }
-                    }
-                    matrix.push(row);
-                }
-                matrices.push(matrix);
-            }
-            return matrices;
-        }
-
         async function fetchJsonData(json_path) {
             try {
                 const response = await fetch(json_path); 
@@ -100,7 +75,6 @@
             }
         }
         
-
         async function displayJsonData(json_path) {
             const data = await fetchJsonData(json_path);
             return data;
@@ -120,10 +94,6 @@
             console.log('Returned data:', result);        
         });
 
-
-        
-        // const similarityMatrix = generateDiagonalMatrices(32 * 32);
-        
         function showHighlight(event, highlight, mask, image, blockSize, self=false, left=true) {
             if(similarityMatrix_0 == null || similarityMatrix_1 == null){
                 return;
@@ -138,18 +108,13 @@
             const rect = image.getBoundingClientRect();
             let x = event.clientX - rect.left;
             let y = event.clientY - rect.top;
-
-            // 计算鼠标所在的像素块索引
             const blockX = Math.floor(x / blockSize);
             const blockY = Math.floor(y / blockSize);
             const currentIndex = Math.floor(blockY * (rect.width / blockSize) + blockX);
-            // console.log('Current Index:', currentIndex);
 
-            // 清除之前的像素块
             while (mask.firstChild) {
                 mask.removeChild(mask.firstChild);
             }
-
             index_r = Math.floor(currentIndex / 32);
             index_c = currentIndex % 32;
 
@@ -162,19 +127,17 @@
                         pixel.classList.add('pixel');
                         pixel.style.left = `${i * blockSize}px`;
                         pixel.style.top = `${j * blockSize}px`;
-
                         if(index_r == j && index_c == i){
-                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; // 高亮黄色
+                            pixel.style.backgroundColor = 'rgba(255, 255, 0, 1)'; 
                         }
                         else{
-                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 透明灰色
+                            pixel.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; 
                         }
                         mask.appendChild(pixel);
                     }
                 }
             }
             else{
-                // 创建新的像素块，并根据相似度值设置高亮状态
                 for (let i = 0; i < 32; i++) {
                     for (let j = 0; j < 32; j++) {
                         const pixel = document.createElement('div');
