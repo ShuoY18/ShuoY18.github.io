@@ -217,7 +217,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Video generation using diffusion-based models is typically constrained by high computational costs due to the complex interactions inherent in video data. This paper addresses these efficiency challenges by optimizing the denoising process across frames. Our key discovery is that inter-frame motion features remain consistent throughout the majority of the diffusion process and can be characterized as coarse-grained. Leveraging this insight, we propose a lightweight motion learning module that efficiently captures and utilizes these inter-frame motions to transform and generate subsequent frames. This module enables the reuse of frames across multiple denoising steps, significantly reducing the need to regenerate each frame from scratch, thus decreasing the computational load and accelerating the video generation process. We apply frame-specific updates only in the final stages of denoising to preserve the integrity and detail of the video. A comprehensive evaluation across various tasks, including style transfer, video prediction, and interpolation, demonstrates that our method substantially reduces computational demands while simultaneously enhancing the speed and quality of video content generation.
+            Video generation using diffusion-based models is constrained by high computational costs due to the frame-wise iterative diffusion process. This work presents a Diffusion Reuse MOtion (Dr. Mo) network to accelerate latent video generation. Our key discovery is that coarse-grained noises in earlier denoising steps have demonstrated high motion consistency across consecutive video frames. Following this observation, Dr. Mo propagates those coarse-grained noises onto the next frame by incorporating carefully designed, lightweight inter-frame motions, eliminating massive computational redundancy in frame-wise diffusion models. The more sensitive and fine-grained noises are still acquired via later denoising steps, which can be essential to retain visual qualities. As such, deciding which intermediate steps should switch from motion-based propagations to denoising can be a crucial problem and a key tradeoff between efficiency and quality. Dr. Mo employs a meta-network named Denoising Step Selector (DSS) to dynamically determine desirable intermediate steps across video frames. Extensive evaluations on video generation and editing tasks have shown that Dr. Mo can substantially accelerate diffusion models in video tasks with improved visual qualities.
           </p>
         </div>
       </div>
@@ -432,7 +432,7 @@ is processed by the rest of the diffusion model for video generation.
           </tr>   
           <tr>
             <td class="has-text-centered " width="256" valign="middle" halign="middle" style="font-size:20px; padding-top:110px">
-              Dr.Mo (Ours)
+              Dr. Mo (Ours)
             </td>
               <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
                 height="256"
@@ -517,7 +517,7 @@ is processed by the rest of the diffusion model for video generation.
             </tr>   
             <tr>
               <td class="has-text-centered " width="256" valign="middle" halign="middle" style="font-size:20px; padding-top:110px">
-                Dr.Mo (Ours)
+                Dr. Mo (Ours)
               </td>
                 <td style="padding-left: 0px; padding-bottom: 0px;"><img class="center" width="256"
                   height="256"
